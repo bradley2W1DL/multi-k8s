@@ -1,0 +1,16 @@
+language: generic
+sudo: required
+service:
+  - docker
+
+before_install:
+  - docker build -t bradley2w1dl/react-test -f ./client/Dockerfile.dev ./client
+
+script: # primary test running section.  All tests must exit with success code (0)
+  - docker run -e CI=true bradley2w1dl/react-test npm test
+
+after_success: # if all the scripts above succeeded, run this block
+  - docker build -t bradley2w1dl/multi-client ./client
+  - docker build -t bradley2w1dl/multi-nginx ./nginx
+  - docker build -t bradley2w1dl/multi-server ./server
+  - docker build -t bradley2w1dl/multi-worker ./worker
