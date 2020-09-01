@@ -21,3 +21,15 @@ after_success: # if all the scripts above succeeded, run this block
   - docker push bradley2w1dl/multi-nginx
   - docker push bradley2w1dl/multi-server
   - docker push bradley2w1dl/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-2
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-west-2-797538971579
+  bucket_path: multi-docker-tutorial
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
